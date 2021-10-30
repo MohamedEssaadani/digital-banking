@@ -6,10 +6,14 @@ import com.essaadani.customerservice.entities.Customer;
 import com.essaadani.customerservice.mappers.CustomerMapper;
 import com.essaadani.customerservice.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
+@Transactional
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
