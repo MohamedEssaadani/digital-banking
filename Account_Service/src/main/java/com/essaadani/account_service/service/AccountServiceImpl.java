@@ -43,10 +43,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountResponseDTO getAccountByCustomerId(Long customerId) {
-        Account account = accountRepository.findByCustomerId(customerId);
-        account.setCustomer(customerRestClient.getCustomerById(customerId));
-        return accountMapper.toAccountDTO(account);    }
+    public List<AccountResponseDTO> getAccountsByCustomerId(Long customerId) {
+        List<Account> accounts = accountRepository.findByCustomerId(customerId);
+        for (Account account : accounts) {
+            account.setCustomer(customerRestClient.getCustomerById(customerId));
+        }
+        return accounts.stream()
+                .map(accountMapper::toAccountDTO)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public AccountResponseDTO saveAccount(AccountRequestDTO accountRequestDTO) {

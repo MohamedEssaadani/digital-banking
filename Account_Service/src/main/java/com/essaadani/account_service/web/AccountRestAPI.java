@@ -26,10 +26,9 @@ public class AccountRestAPI {
     }
 
     @GetMapping("/accounts/byCustomer/{customerId}")
-    public AccountResponseDTO getAccountByCustomer(@PathVariable Long customerId){
-        return accountService.getAccountByCustomerId(customerId);
+    public List<AccountResponseDTO> getAccountByCustomer(@PathVariable Long customerId){
+        return accountService.getAccountsByCustomerId(customerId);
     }
-
 
     @PostMapping("/accounts")
     public AccountResponseDTO saveAccount(@RequestBody AccountRequestDTO accountRequestDTO){

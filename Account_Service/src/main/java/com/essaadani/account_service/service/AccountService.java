@@ -8,7 +8,7 @@ import java.util.List;
 public interface AccountService {
     List<AccountResponseDTO> accountsList();
     AccountResponseDTO getAccountById(Long id);
-    AccountResponseDTO getAccountByCustomerId(Long customerId);
+    List<AccountResponseDTO> getAccountsByCustomerId(Long customerId);
     AccountResponseDTO saveAccount(AccountRequestDTO accountRequestDTO);
     void deleteAccountById(Long id);
     AccountResponseDTO updateAccount(Long id, AccountRequestDTO accountRequestDTO );
