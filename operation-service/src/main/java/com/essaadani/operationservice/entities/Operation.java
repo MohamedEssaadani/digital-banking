@@ -1,6 +1,7 @@
 package com.essaadani.operationservice.entities;
 
 import com.essaadani.operationservice.enums.OperationType;
+import com.essaadani.operationservice.models.Account;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,8 @@ public class Operation {
     private BigDecimal amount;
     @Enumerated(EnumType.STRING)
     private OperationType operationType;
+    private Long accountId;
+
+    @Transient
+    private Account account;
 }
