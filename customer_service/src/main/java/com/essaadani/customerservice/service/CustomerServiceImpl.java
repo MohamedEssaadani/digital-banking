@@ -52,6 +52,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void deleteCustomerById(Long id) {
+        // (we should check if he don't have accounts first before delete)
         customerRepository.deleteById(id);
     }
 
