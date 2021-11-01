@@ -4,14 +4,17 @@ import com.essaadani.operationservice.dtos.OperationRequestDTO;
 import com.essaadani.operationservice.dtos.OperationResponseDTO;
 import com.essaadani.operationservice.entities.Operation;
 import com.essaadani.operationservice.mappers.OperationMapper;
-import com.essaadani.operationservice.models.Account;
 import com.essaadani.operationservice.openfeign.AccountRestClient;
 import com.essaadani.operationservice.repositories.OperationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
+@Transactional
 @RequiredArgsConstructor
 public class OperationServiceImpl implements OperationService {
     private final OperationRepository operationRepository;

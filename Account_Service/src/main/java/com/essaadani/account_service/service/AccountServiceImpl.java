@@ -38,7 +38,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountResponseDTO getAccountById(Long id) {
         Account account = accountRepository.findById(id).get();
-        account.setCustomer(customerRestClient.getCustomerById(account.getCustomerId()));
+        //account.setCustomer(customerRestClient.getCustomerById(account.getCustomerId()));
         return accountMapper.toAccountDTO(account);
     }
 

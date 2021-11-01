@@ -70,7 +70,11 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <version>3.0.5</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.5.2</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
