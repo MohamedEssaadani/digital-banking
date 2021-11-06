@@ -20,6 +20,11 @@ public class OperationRestAPI {
         return operationService.operationsList();
     }
 
+    @GetMapping("/operations/byAccount/{accountId}")
+    public List<OperationResponseDTO> getOperationsByAccount(@PathVariable Long accountId){
+        return operationService.getOperationsByAccountId(accountId);
+    }
+
     @GetMapping("/operations/{id}")
     public OperationResponseDTO getOperationById(@PathVariable Long id){
         return operationService.getOperationById(id);
