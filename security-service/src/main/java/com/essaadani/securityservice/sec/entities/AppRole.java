@@ -1,4 +1,4 @@
-package com.essaadani.securityservice.entities;
+package com.essaadani.securityservice.sec.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

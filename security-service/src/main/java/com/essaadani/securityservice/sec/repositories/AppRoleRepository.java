@@ -1,6 +1,6 @@
-package com.essaadani.securityservice.repositories;
+package com.essaadani.securityservice.sec.repositories;
 
-import com.essaadani.securityservice.entities.AppRole;
+import com.essaadani.securityservice.sec.entities.AppRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AppRoleRepository extends JpaRepository<AppRole, Long> {
