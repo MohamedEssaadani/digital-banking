@@ -1,4 +1,4 @@
-package com.essaadani.securityservice.filter;
+package com.essaadani.securityservice.sec.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -11,7 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,10 +21,10 @@ import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-public class CustomerAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
 
-    public CustomerAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
@@ -50,6 +49,7 @@ public class CustomerAuthenticationFilter extends UsernamePasswordAuthentication
         //get the algorithm to use to sign (signature) the jwt
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
 
+        // user roels / authorities
         List<String> roles = user.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
@@ -63,11 +63,13 @@ public class CustomerAuthenticationFilter extends UsernamePasswordAuthentication
                 .withArrayClaim("roles", roles.toArray(new String[0]))
                 .sign(algorithm);
 
+        // refresh token
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 525600L * 2 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
+
 
         Map<String, String> tokens = new HashMap<>();
         tokens.put("access_token", access_token);

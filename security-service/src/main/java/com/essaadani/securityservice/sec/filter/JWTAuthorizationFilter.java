@@ -1,4 +1,4 @@
-package com.essaadani.securityservice.filter;
+package com.essaadani.securityservice.sec.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -27,7 +27,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
-public class CustomerAuthorizationFilter extends OncePerRequestFilter {
+public class JWTAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         httpServletResponse.addHeader("Access-Control-Allow-Origin", "*");

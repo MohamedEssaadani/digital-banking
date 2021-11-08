@@ -1,8 +1,7 @@
 package com.essaadani.securityservice.sec;
 
-import com.essaadani.securityservice.filter.CustomerAuthenticationFilter;
-import com.essaadani.securityservice.filter.CustomerAuthorizationFilter;
-import com.essaadani.securityservice.sec.service.UserService;
+import com.essaadani.securityservice.sec.filter.JWTAuthenticationFilter;
+import com.essaadani.securityservice.sec.filter.JWTAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,15 +25,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // h2 form don't have csrf token so we can't use it while spring security based on csrf
+        // to use it we have to disable csrf
         http.csrf().disable();
+
+        // h2 forms using html frames & spring forbids forms with frames & it didn't let the content display
+        http.headers().frameOptions().disable();
+
+        // The STATELESS will ensure no session is created by Spring security
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        // any request with h2-console is permitted
+        http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
+
+        // any request require authentication
         http.authorizeRequests().anyRequest().authenticated();
 
         // add AuthenticationFilter
-        http.addFilter(new CustomerAuthenticationFilter(authenticationManager()));
+        http.addFilter(new JWTAuthenticationFilter(authenticationManager()));
 
         // add Authorization filter before
-        http.addFilterBefore(new CustomerAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
