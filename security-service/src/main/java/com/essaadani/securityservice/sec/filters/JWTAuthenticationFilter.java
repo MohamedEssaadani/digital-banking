@@ -1,4 +1,4 @@
-package com.essaadani.securityservice.sec.filter;
+package com.essaadani.securityservice.sec.filters;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -58,25 +58,33 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // access token
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 525600L * 60 * 1000))
+                // 15 MIN
+                .withExpiresAt(new Date(System.currentTimeMillis() + 15 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
-                .withArrayClaim("roles", roles.toArray(new String[0]))
+                .withClaim("roles", user.getAuthorities()
+                        .stream().map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList()))
                 .sign(algorithm);
 
         // refresh token
+        // will be used after the expiration of access token,  user will send the refresh token if its correct then we will send another access token
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 525600L * 2 * 60 * 1000))
+                // 60 DAYS
+                .withExpiresAt(new Date(System.currentTimeMillis() + 86400L * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
 
 
+        // to send access & refresh tokens in the body
         Map<String, String> tokens = new HashMap<>();
         tokens.put("access_token", access_token);
         tokens.put("refresh_token", refresh_token);
 
+        // content type of response is json
         response.setContentType(APPLICATION_JSON_VALUE);
 
+        // Object Mapper used to serialize an object in json format
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
 }

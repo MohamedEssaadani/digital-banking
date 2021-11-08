@@ -1,4 +1,4 @@
-package com.essaadani.securityservice.sec.filter;
+package com.essaadani.securityservice.sec.filters;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

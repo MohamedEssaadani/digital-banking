@@ -1,7 +1,7 @@
 package com.essaadani.securityservice.sec;
 
-import com.essaadani.securityservice.sec.filter.JWTAuthenticationFilter;
-import com.essaadani.securityservice.sec.filter.JWTAuthorizationFilter;
+import com.essaadani.securityservice.sec.filters.JWTAuthenticationFilter;
+import com.essaadani.securityservice.sec.filters.JWTAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // add AuthenticationFilter
         http.addFilter(new JWTAuthenticationFilter(authenticationManager()));
 
-        // add Authorization filter before
+        // add Authorization filter before Authentication filter
         http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
