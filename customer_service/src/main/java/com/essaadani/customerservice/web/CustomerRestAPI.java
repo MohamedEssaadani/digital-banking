@@ -4,14 +4,16 @@ import com.essaadani.customerservice.dto.CustomerRequestDTO;
 import com.essaadani.customerservice.dto.CustomerResponseDTO;
 import com.essaadani.customerservice.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
 @RequestMapping("/api")
-@CrossOrigin("*")
 @RequiredArgsConstructor
+@RestController
+//@CrossOrigin
+@Slf4j
 public class CustomerRestAPI {
     private final CustomerService customerService;
 
@@ -27,6 +29,7 @@ public class CustomerRestAPI {
 
     @PostMapping("/customers")
     public CustomerResponseDTO saveCustomer(@RequestBody CustomerRequestDTO customerRequestDTO){
+        log.info("saving customer..");
         return customerService.saveCustomer(customerRequestDTO);
     }
 
