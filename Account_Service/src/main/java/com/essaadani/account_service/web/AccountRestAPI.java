@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @RequiredArgsConstructor
 public class AccountRestAPI {
     private final AccountService accountService;

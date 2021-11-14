@@ -2,6 +2,7 @@ package com.essaadani.securityservice.sec.filters;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.essaadani.securityservice.sec.JWTUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -47,7 +48,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         User  user = (User) authResult.getPrincipal();
 
         //get the algorithm to use to sign (signature) the jwt
-        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        Algorithm algorithm = Algorithm.HMAC256(JWTUtil.SECRET.getBytes());
 
         // user roels / authorities
         List<String> roles = user.getAuthorities()
@@ -58,8 +59,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // access token
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                // 15 MIN
-                .withExpiresAt(new Date(System.currentTimeMillis() + 15 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + JWTUtil.EXPIRE_ACCESS_TOKEN))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getAuthorities()
                         .stream().map(GrantedAuthority::getAuthority)
@@ -70,8 +70,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // will be used after the expiration of access token,  user will send the refresh token if its correct then we will send another access token
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername())
-                // 60 DAYS
-                .withExpiresAt(new Date(System.currentTimeMillis() + 86400L * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + JWTUtil.EXPIRE_REFRESH_TOKEN))
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
 

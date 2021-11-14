@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -35,6 +36,11 @@ public class UserRestController {
     @PostMapping("/users/addRole")
     public void addRoleToUser(@RequestBody RoleUserForm roleUserForm){
         userService.addRoleToUser(roleUserForm.getUsername(), roleUserForm.getRoleName());
+    }
+
+    @GetMapping("/profile")
+    public AppUser profile(Principal principal){
+        return userService.getUserByUsername(principal.getName());
     }
 }
 

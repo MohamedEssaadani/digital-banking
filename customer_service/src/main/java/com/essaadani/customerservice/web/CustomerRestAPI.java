@@ -13,7 +13,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 //@CrossOrigin
-@Slf4j
 public class CustomerRestAPI {
     private final CustomerService customerService;
 
@@ -29,7 +28,6 @@ public class CustomerRestAPI {
 
     @PostMapping("/customers")
     public CustomerResponseDTO saveCustomer(@RequestBody CustomerRequestDTO customerRequestDTO){
-        log.info("saving customer..");
         return customerService.saveCustomer(customerRequestDTO);
     }
 

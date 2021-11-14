@@ -10,5 +10,6 @@ public interface UserService {
     AppRole addNewRole(AppRole appRole);
     void addRoleToUser(String username, String roleName);
     List<AppUser> usersList();
+    AppUser getUserByUsername(String username);
 
 }
