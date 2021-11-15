@@ -3,6 +3,7 @@ package com.essaadani.account_service.service;
 import com.essaadani.account_service.dto.AccountRequestDTO;
 import com.essaadani.account_service.dto.AccountResponseDTO;
 import com.essaadani.account_service.entities.Account;
+import com.essaadani.account_service.enums.AccountStatus;
 import com.essaadani.account_service.exceptions.CustomerNotFoundException;
 import com.essaadani.account_service.mappers.AccountMapper;
 import com.essaadani.account_service.models.Customer;
@@ -65,6 +66,7 @@ public class AccountServiceImpl implements AccountService {
 
         Account account = accountMapper.toAccount(accountRequestDTO);
         account.setCustomer(customer);
+        account.setAccountStatus(AccountStatus.CREATED);
         Account savedAccount = accountRepository.save(account);
 
         return accountMapper.toAccountDTO(savedAccount);
