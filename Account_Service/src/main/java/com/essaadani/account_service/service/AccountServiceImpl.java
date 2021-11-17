@@ -74,7 +74,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteAccountById(Long id) {
-        accountRepository.deleteById(id);
+        // set status to deactivated
+        accountRepository
+                .findById(id).get()
+                .setAccountStatus(AccountStatus.DEACTIVATED);
     }
 
     @Override
