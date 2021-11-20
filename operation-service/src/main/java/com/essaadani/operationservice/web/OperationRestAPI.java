@@ -2,6 +2,7 @@ package com.essaadani.operationservice.web;
 
 import com.essaadani.operationservice.dtos.OperationRequestDTO;
 import com.essaadani.operationservice.dtos.OperationResponseDTO;
+import com.essaadani.operationservice.enums.OperationType;
 import com.essaadani.operationservice.service.OperationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
