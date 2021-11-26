@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 @FeignClient("CUSTOMER-SERVICE")
 public interface CustomerRestClient {
-
     @GetMapping("/api/customers/{id}")
     Customer getCustomerById(@PathVariable Long id, @RequestHeader("Authorization") String token);
-
 }
