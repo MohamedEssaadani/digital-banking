@@ -24,10 +24,10 @@ public class OperationServiceImpl implements OperationService {
     private final AccountRestClient accountRestClient;
 
     @Override
-    public List<OperationResponseDTO> operationsList() {
+    public List<OperationResponseDTO> operationsList(String access_token) {
         List<Operation> operations = operationRepository.findAll();
         for (Operation operation : operations) {
-            operation.setAccount(accountRestClient.getAccountById(operation.getAccountId()));
+            operation.setAccount(accountRestClient.getAccountById(operation.getAccountId(), access_token));
         }
         return operations.stream()
                 .map(operationMapper::toOperationDTO)
@@ -35,17 +35,17 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public OperationResponseDTO getOperationById(Long id) {
+    public OperationResponseDTO getOperationById(Long id, String access_token) {
         Operation operation = operationRepository.getById(id);
-        operation.setAccount(accountRestClient.getAccountById(operation.getAccountId()));
+        operation.setAccount(accountRestClient.getAccountById(operation.getAccountId(), access_token));
         return operationMapper.toOperationDTO(operation);
     }
 
     @Override
-    public List<OperationResponseDTO> getOperationsByAccountId(Long accountId) {
+    public List<OperationResponseDTO> getOperationsByAccountId(Long accountId, String access_token) {
         List<Operation> operations = operationRepository.findByAccountId(accountId);
         for (Operation operation : operations) {
-            operation.setAccount(accountRestClient.getAccountById(operation.getAccountId()));
+            operation.setAccount(accountRestClient.getAccountById(operation.getAccountId(), access_token));
         }
         return operations.stream()
                 .map(operationMapper::toOperationDTO)

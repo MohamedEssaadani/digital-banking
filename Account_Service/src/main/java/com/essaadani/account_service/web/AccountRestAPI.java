@@ -4,6 +4,7 @@ import com.essaadani.account_service.dto.AccountRequestDTO;
 import com.essaadani.account_service.dto.AccountResponseDTO;
 import com.essaadani.account_service.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +17,8 @@ public class AccountRestAPI {
     private final AccountService accountService;
 
     @GetMapping("/accounts")
-    public List<AccountResponseDTO> accountsList(){
-        return accountService.accountsList();
+    public List<AccountResponseDTO> accountsList(@RequestHeader HttpHeaders headers){
+        return accountService.accountsList(headers.get("Authorization").get(0));
     }
 
     @GetMapping("/accounts/{id}")
@@ -26,13 +27,15 @@ public class AccountRestAPI {
     }
 
     @GetMapping("/accounts/byCustomer/{customerId}")
-    public List<AccountResponseDTO> getAccountByCustomer(@PathVariable Long customerId){
-        return accountService.getAccountsByCustomerId(customerId);
+    public List<AccountResponseDTO> getAccountsByCustomer(@PathVariable Long customerId,
+                                                          @RequestHeader HttpHeaders headers){
+        return accountService.getAccountsByCustomerId(customerId, headers.get("Authorization").get(0));
     }
 
     @PostMapping("/accounts")
-    public AccountResponseDTO saveAccount(@RequestBody AccountRequestDTO accountRequestDTO){
-        return accountService.saveAccount(accountRequestDTO);
+    public AccountResponseDTO saveAccount(@RequestBody AccountRequestDTO accountRequestDTO,
+                                          @RequestHeader HttpHeaders headers){
+        return accountService.saveAccount(accountRequestDTO, headers.get("Authorization").get(0));
     }
 
     @PutMapping("/accounts/{id}")

@@ -25,10 +25,10 @@ public class AccountServiceImpl implements AccountService {
     private final CustomerRestClient customerRestClient;
 
     @Override
-    public List<AccountResponseDTO> accountsList() {
+    public List<AccountResponseDTO> accountsList(String token) {
         List<Account> accounts = accountRepository.findAll();
         accounts.forEach(account -> {
-            account.setCustomer(customerRestClient.getCustomerById(account.getCustomerId()));
+            account.setCustomer(customerRestClient.getCustomerById(account.getCustomerId(), token));
         });
         return accounts
                 .stream()
@@ -44,10 +44,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountResponseDTO> getAccountsByCustomerId(Long customerId) {
+    public List<AccountResponseDTO> getAccountsByCustomerId(Long customerId, String token) {
         List<Account> accounts = accountRepository.findByCustomerId(customerId);
         for (Account account : accounts) {
-            account.setCustomer(customerRestClient.getCustomerById(customerId));
+            account.setCustomer(customerRestClient.getCustomerById(customerId, token));
         }
         return accounts.stream()
                 .map(accountMapper::toAccountDTO)
@@ -55,11 +55,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountResponseDTO saveAccount(AccountRequestDTO accountRequestDTO) {
+    public AccountResponseDTO saveAccount(AccountRequestDTO accountRequestDTO, String token) {
         // Verifier si le customer existe
         Customer customer;
         try{
-            customer = customerRestClient.getCustomerById(accountRequestDTO.getCustomerId());
+            customer = customerRestClient.getCustomerById(accountRequestDTO.getCustomerId(), token);
         }catch (Exception e){
             throw new CustomerNotFoundException("Customer Not Found!");
         }

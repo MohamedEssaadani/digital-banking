@@ -6,10 +6,10 @@ import com.essaadani.account_service.dto.AccountResponseDTO;
 import java.util.List;
 
 public interface AccountService {
-    List<AccountResponseDTO> accountsList();
+    List<AccountResponseDTO> accountsList(String token);
     AccountResponseDTO getAccountById(Long id);
-    List<AccountResponseDTO> getAccountsByCustomerId(Long customerId);
-    AccountResponseDTO saveAccount(AccountRequestDTO accountRequestDTO);
+    List<AccountResponseDTO> getAccountsByCustomerId(Long customerId, String token);
+    AccountResponseDTO saveAccount(AccountRequestDTO accountRequestDTO, String token);
     void deleteAccountById(Long id);
     AccountResponseDTO updateAccount(Long id, AccountRequestDTO accountRequestDTO );
 }
