@@ -4,7 +4,6 @@ import com.essaadani.customerservice.dto.CustomerRequestDTO;
 import com.essaadani.customerservice.dto.CustomerResponseDTO;
 import com.essaadani.customerservice.service.CustomerService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 //@CrossOrigin
-
 public class CustomerRestAPI {
     private final CustomerService customerService;
 
@@ -25,6 +23,11 @@ public class CustomerRestAPI {
     @GetMapping("/customers/{id}")
     public CustomerResponseDTO getCustomerById(@PathVariable Long id){
         return customerService.getCustomerById(id);
+    }
+
+    @GetMapping("/customers/byCin/{cin}")
+    public CustomerResponseDTO getCustomerByCin(@PathVariable String cin){
+        return customerService.getCustomerByCin(cin);
     }
 
     @PostMapping("/customers")

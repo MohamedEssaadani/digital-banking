@@ -29,7 +29,5 @@ public class CustomerServiceApplication {
                       log.info("Customer : {}", customer.getName());
                   });
         };
-
-
     }
 }

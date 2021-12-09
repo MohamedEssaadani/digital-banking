@@ -40,6 +40,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public CustomerResponseDTO getCustomerByCin(String cin) {
+        return customerMapper.customerToCustomerDTO(
+                customerRepository.findByCin(cin)
+        );
+    }
+
+    @Override
     public CustomerResponseDTO saveCustomer(CustomerRequestDTO customerRequestDTO) {
         // convert customer dto to customer
         Customer customer = customerMapper.customerDTOtoCustomer(customerRequestDTO);

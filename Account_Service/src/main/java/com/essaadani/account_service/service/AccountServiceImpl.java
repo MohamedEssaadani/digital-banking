@@ -39,10 +39,9 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountResponseDTO getAccountById(Long id) {
         Account account = accountRepository.findById(id).get();
-        //account.setCustomer(customerRestClient.getCustomerById(account.getCustomerId()));
+       // account.setCustomer(customerRestClient.getCustomerById(account.getCustomerId()));
         return accountMapper.toAccountDTO(account);
     }
-
     @Override
     public List<AccountResponseDTO> getAccountsByCustomerId(Long customerId, String token) {
         List<Account> accounts = accountRepository.findByCustomerId(customerId);
@@ -53,7 +52,6 @@ public class AccountServiceImpl implements AccountService {
                 .map(accountMapper::toAccountDTO)
                 .collect(Collectors.toList());
     }
-
     @Override
     public AccountResponseDTO saveAccount(AccountRequestDTO accountRequestDTO, String token) {
         // Verifier si le customer existe
@@ -75,9 +73,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteAccountById(Long id) {
         // set status to deactivated
-        accountRepository
-                .findById(id).get()
-                .setAccountStatus(AccountStatus.DEACTIVATED);
+        accountRepository.findById(id).get().setAccountStatus(AccountStatus.DEACTIVATED);
     }
 
     @Override

@@ -1,8 +1,7 @@
-package com.essaadani.customerservice.security;
+package com.essaadani.gateway.security;
 
 import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.session.SessionRegistryImpl;
@@ -25,16 +24,17 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
-        //http.authorizeRequests().anyRequest().authenticated();
         http.authorizeRequests()
-                .antMatchers("/api/customers/**")
+                .antMatchers("/api/accounts/**")
                 .hasAnyAuthority("ADMIN", "MANAGER")
                 .anyRequest()
                 .permitAll()
                 .and()
                 .csrf()
                 .disable();
-        http.headers().frameOptions().disable();
 
+        http.headers().frameOptions().disable();
     }
+
+
 }

@@ -54,6 +54,9 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public OperationResponseDTO saveOperation(OperationRequestDTO operationRequestDTO) {
+        /*
+            after the operation => activate the account
+         */
         Operation operation = operationMapper.toOperation(operationRequestDTO);
 
         // check operation type
