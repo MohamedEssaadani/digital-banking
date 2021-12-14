@@ -33,7 +33,6 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
                 .csrf()
                 .disable();
 
-        http.headers().frameOptions().disable();
     }
 
 
