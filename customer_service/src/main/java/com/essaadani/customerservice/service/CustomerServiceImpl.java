@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,6 +51,8 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerResponseDTO saveCustomer(CustomerRequestDTO customerRequestDTO) {
         // convert customer dto to customer
         Customer customer = customerMapper.customerDTOtoCustomer(customerRequestDTO);
+
+        customer.setCreatedAt(new Date());
         // save customer
         Customer savedCustomer = customerRepository.save(customer);
 

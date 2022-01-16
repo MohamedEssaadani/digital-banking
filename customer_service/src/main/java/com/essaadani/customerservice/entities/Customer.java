@@ -20,4 +20,6 @@ public class Customer {
     private String cin;
     private String address;
     private String phoneNumber;
+
+    private Date createdAt;
 }
