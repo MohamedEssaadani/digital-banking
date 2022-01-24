@@ -23,5 +23,6 @@ public class Account {
     private Long customerId;
 
     @Transient
+    //@OneToOne
     private Customer customer;
 }

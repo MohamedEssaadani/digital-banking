@@ -1,0 +1,50 @@
+package com.essaadani.customerservice.service;
+
+import com.essaadani.customerservice.entities.Customer;
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.KeyValue;
+import org.apache.kafka.streams.kstream.Grouped;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Materialized;
+import org.apache.kafka.streams.kstream.TimeWindows;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
+
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.util.Date;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+@Service
+public class CustomerEventService {
+    @Bean
+    public Supplier<Customer> customerSupplier(){
+        System.out.println("customer supplier");
+        return ()-> new Customer(
+                null,
+                Math.random()>0.5?"Mohamed":"Hicham",
+                new Date(),
+                Math.random()>0.5?"MMESS":"KKESS",
+                Math.random()>0.5?"Address 1":"Address2",
+                Math.random()>0.5?"0689898789":"0776676545",
+                new Date()
+        );
+    }
+
+    @Bean
+    public Function<KStream<String,Customer>, KStream<String,Long>> kStreamFunction(){
+        Format formatter = new SimpleDateFormat("dd/MM/yyyy ");
+
+        return (input)->{
+            return input
+                    .map((k,v)->new KeyValue<>(formatter.format(v.getCreatedAt()),0L))
+                    .groupBy((k,v)->k,Grouped.with(Serdes.String(),Serdes.Long()))
+                    .windowedBy(TimeWindows.of(Duration.ofSeconds(5)))
+                    .count(Materialized.as("customers-count"))
+                    .toStream()
+                    .map((k,v)->new KeyValue<>("=>"+k.window().startTime()+k.window().endTime()+":"+k.key(),v));
+        };
+    }
+}

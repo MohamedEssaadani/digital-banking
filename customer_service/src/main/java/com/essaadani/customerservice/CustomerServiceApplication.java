@@ -16,7 +16,7 @@ import java.util.Date;
 @Slf4j
 public class CustomerServiceApplication {
     @Autowired
-    StreamBridge streamBridge;
+    private StreamBridge streamBridge;
 
     public static void main(String[] args) {
         SpringApplication.run(CustomerServiceApplication.class, args);
@@ -31,7 +31,8 @@ public class CustomerServiceApplication {
 
           customerRepository.findAll()
                   .forEach(customer -> {
-                      streamBridge.send("customers-topic", customer);
+                      log.info("*****************Pushing to customers topic***************");
+                      streamBridge.send("CUSTOMERS-TOPIC", customer);
                       log.info("Customer : {}", customer.getName());
                   });
         };

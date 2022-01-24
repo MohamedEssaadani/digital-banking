@@ -4,9 +4,22 @@ import com.essaadani.customerservice.dto.CustomerRequestDTO;
 import com.essaadani.customerservice.dto.CustomerResponseDTO;
 import com.essaadani.customerservice.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.apache.kafka.streams.KeyValue;
+import org.apache.kafka.streams.kstream.Windowed;
+import org.apache.kafka.streams.state.KeyValueIterator;
+import org.apache.kafka.streams.state.QueryableStoreTypes;
+import org.apache.kafka.streams.state.ReadOnlyWindowStore;
+import org.apache.kafka.streams.state.WindowStoreIterator;
+import org.springframework.cloud.stream.binder.kafka.streams.InteractiveQueryService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -14,6 +27,9 @@ import java.util.List;
 //@CrossOrigin
 public class CustomerRestAPI {
     private final CustomerService customerService;
+
+    // to query kafka store
+    private final InteractiveQueryService interactiveQueryService;
 
     @GetMapping("/customers")
     public List<CustomerResponseDTO> getCustomersList(){

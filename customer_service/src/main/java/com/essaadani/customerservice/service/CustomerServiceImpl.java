@@ -6,6 +6,7 @@ import com.essaadani.customerservice.entities.Customer;
 import com.essaadani.customerservice.mappers.CustomerMapper;
 import com.essaadani.customerservice.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
+    private final StreamBridge streamBridge;
 
     @Override
     public List<CustomerResponseDTO> customersList() {
@@ -55,6 +57,9 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setCreatedAt(new Date());
         // save customer
         Customer savedCustomer = customerRepository.save(customer);
+
+        //push the new customer to kafka broker
+        streamBridge.send("CUSTOMERS-TOPIC", customer);
 
         // convert customer to customer dto and return the saved customer
         return customerMapper.customerToCustomerDTO(savedCustomer);
