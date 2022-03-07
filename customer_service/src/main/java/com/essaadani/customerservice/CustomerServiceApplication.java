@@ -25,7 +25,7 @@ public class CustomerServiceApplication {
     @Bean
     CommandLineRunner start(CustomerRepository customerRepository){
         return args -> {
-          customerRepository.save(new Customer(null, "ESSAADANI Mohamed", new Date("18/01/1998"), "AE177349", "Casablanca", "0694496795", new Date()));
+          customerRepository.save(new Customer(null, "ESSAADANI Mohamed", new Date("18/01/1998"), "SAAS44", "Casablanca", "0694496795", new Date()));
           customerRepository.save(new Customer(null, "OUAHBI Youssef", new Date("18/01/1991"), "SS8733", "El Jadida", "06774488", new Date()));
           customerRepository.save(new Customer(null, "ESSAADANI Hicham", new Date("12/05/1985"), "MM9933", "Sale", "067733992", new Date()));
 
